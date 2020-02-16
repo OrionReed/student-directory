@@ -14,14 +14,13 @@ def process(selection)
   when "3" then save_students
   when "4" then load_students
   when "9" then exit
-  else
-    puts "I don't know what you mean, try again"
+  else puts "I don't know what you mean, try again"
   end
 end
 
 def try_load_students
   filename = ARGV.first
-  return if filename.nil?
+  if filename.nil? then load_students; return end
   if File.exists?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
@@ -66,6 +65,7 @@ end
 end
 
 def print_header
+  puts ""
   puts 'The students of Villains Academy'
   puts '-------------'
 end
@@ -82,11 +82,11 @@ def print_footer
 end
 
 def save_students
-  file = File.open("students.csv", "w")
-  @students.each do |student|
-    file.puts [student[:name], student[:cohort]].join(",")
+  File.open("students.csv", "w") do |f|
+    @students.each do |student|
+      f.puts [student[:name], student[:cohort]].join(",")
+    end
   end
-  file.close
 end
 
 try_load_students
